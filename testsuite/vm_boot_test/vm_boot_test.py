@@ -30,7 +30,8 @@ class VmBootTest(Test):
         if os.path.exists(output_file):
             os.remove(output_file)
 
-        cmdline = start_vm.format_qemu_cmdline(arch, build_dir, distro)
+        cmdline = start_vm.format_qemu_cmdline(arch, build_dir, distro,
+                                               None, None)
         cmdline.insert(1, '-nographic')
         cmdline.append('-serial')
         cmdline.append('file:' + output_file)
