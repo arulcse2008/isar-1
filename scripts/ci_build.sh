@@ -28,6 +28,23 @@ for prog in ${DEPENDENCIES} ; do
     fi
 done
 
+# Install Avocado if needed
+if [ ! -x "$(which avocado)" ] ; then
+    set +e
+    APT_LIST="/etc/apt/sources.list.d"
+    ISAR_REPO="deb http://deb.isar-build.org/debian-isar buster-isar main"
+    ISAR_KEY="http://deb.isar-build.org/debian-isar.key"
+    sudo -s <<EOSUDO
+    mkdir -p $APT_LIST
+    echo "$ISAR_REPO" > $APT_LIST/isar.list
+    apt-key adv --fetch-keys $ISAR_KEY
+    apt update
+    yes | apt install avocado
+EOSUDO
+    echo "Installed Avocado-framework"
+    set -e
+fi
+
 show_help() {
     echo "This script builds the default Isar images."
     echo
